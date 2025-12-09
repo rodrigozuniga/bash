@@ -1,0 +1,16 @@
+#!/bin/bash
+echo "This will create 5 files. If files already exist they will be deleted first"
+
+echo "Current files in directory:"
+echo $(ls)
+if test -f $(pwd)/file_01; then
+        echo "Files exists and will be erased."
+	rm file_{01..05} 
+fi
+
+echo "Current files in directory:"
+ls 
+touch file_{01..05}
+echo "Current files in directory:"
+ls 
+exit 0
