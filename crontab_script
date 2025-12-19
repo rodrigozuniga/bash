@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "cron job running now"
+date >> cron_output.txt

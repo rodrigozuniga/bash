@@ -1,0 +1,30 @@
+#!/bin/bash
+readarray -t ext < <(ls $1/*.*|cut -d'.' -f2,3|uniq)
+extstring="jpg txt tar tar.gz zip png jpg xlsx ppt mp3 mp4 xlx csv sh"
+
+
+echo ${extlist[@]}
+echo ${ext[@]}
+
+for e in ${ext[@]};do
+
+	if [[ "$extstring" == *"$e"*  ]] && [[ ! -d $1/$e  ]]; then
+		echo "creating folder $e"
+		mkdir $1/$e
+	fi
+
+	if [[ "$extstring" == *"$e"* ]]; then
+
+        	find $1 -maxdepth 1 -mindepth 1 -type f -name "*.$e"|xargs -I {} mv {} $1/$e 
+	fi
+done
+
+
+if [[ ! -d $1/other ]];then
+	mkdir $1/other
+	echo creating folder other
+fi
+
+find $1 -maxdepth 1 -mindepth 1 -type f|xargs -I {} mv {} $1/other
+
+	

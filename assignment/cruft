@@ -1,0 +1,32 @@
+#!/bin/bash
+
+read -p "enter name of folder to inspect: " foldername
+read -p "enter minimum age in days of files to be removed: " days
+
+sec=$(echo "scale=1;${days}*86400"|bc)
+
+echo "You selected the folder $foldername"
+
+echo "---> you entered $days days or $sec seconds <--- "
+echo ""
+
+currdt=$(date +%s)
+
+################
+
+readarray fileage< <(find $foldername/ -maxdepth 1 -mindepth 1 -type f|xargs stat --format '%n=%Y'|cut -d'/' -f2)     echo ${fileage[@]}
+
+for e in ${fileage[@]};do
+	key=$(echo $e|cut -d'=' -f1)	
+	val=$(echo $e|cut -d'=' -f2)
+	age=$((currdt - val))
+	echo $foldername/$key is $age seconds 
+	if [[ "$age" -gt "$sec" ]] && [[ "$key" != "ord" ]] && [[ "$key" != "cruft" ]];then
+		echo $foldername/$key|xargs rm 
+		echo file $key has been removed from the directory
+		echo ""
+	else 
+		echo "file $key was not deleted"
+		echo ""
+	fi
+done

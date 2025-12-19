@@ -1,0 +1,27 @@
+#!/bin/bash
+
+OPTIONS=("Order folder by extension" "Delete old files" "Quit")
+PS3="Select an option (enter number): "
+
+select choice in "${OPTIONS[@]}"; do
+
+	echo "You selected $choice"
+
+	case $choice in
+		"Order folder by extension")
+			read -p "Enter folder to organize: " foldername
+			./ord $foldername ;;
+		"Delete old files")
+			./cruft ;;
+		"Quit")
+			echo $choice;
+			exit 0 ;;
+
+	esac
+
+	echo ""
+
+
+done
+
+

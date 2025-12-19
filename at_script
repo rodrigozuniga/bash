@@ -1,0 +1,5 @@
+#!/bin/bash
+
+mkdir atfolder
+touch atfolder/file{1..100}.txt
+
